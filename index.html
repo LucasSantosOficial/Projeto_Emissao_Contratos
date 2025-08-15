@@ -118,10 +118,10 @@
 
             <!-- Botões de Ação -->
             <div class="form-actions">
-                <button type="button" id="previewDevBtn" class="action-btn primary">Prévia Registro Dev</button>
-                <button type="button" id="previewClientBtn" class="action-btn primary">Prévia Lista Serviços</button>
-                <button type="button" id="generatePdfDevBtn" class="action-btn success">Baixar PDF Registro Dev</button>
-                <button type="button" id="generatePdfClientBtn" class="action-btn success">Baixar PDF Lista Serviços</button>
+                <button type="button" id="previewDevBtn" class="action-btn primary">Prévia Dev</button>
+                <button type="button" id="previewClientBtn" class="action-btn primary">Prévia contrato</button>
+                <button type="button" id="generatePdfDevBtn" class="action-btn success">Baixar registro Dev</button>
+                <button type="button" id="generatePdfClientBtn" class="action-btn success">Baixar Contrato</button>
                 <button type="reset" class="action-btn secondary">Limpar Formulário</button>
             </div>
         </form>
@@ -267,7 +267,15 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    
+<!-- pdfMake (gera PDF com texto real) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<!-- Seu script por último -->
+<script defer src="script.js"></script>
+
 </body>
 </html>
+
 

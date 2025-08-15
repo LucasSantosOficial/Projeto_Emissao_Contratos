@@ -502,7 +502,7 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
 }
 
 .notification.error {
-    background: linear-gradient(135deg, #450000 0%, #bb0101 100%);
+    background: linear-gradient(135deg, #e53e3e 0%, #e53e3e 100%);
 }
 
 .notification.warning {

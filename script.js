@@ -448,8 +448,9 @@ function setupEventListeners() {
     // Event listeners para botões de ação
     document.getElementById('previewDevBtn').addEventListener('click', () => showPreview('dev'));
     document.getElementById('previewClientBtn').addEventListener('click', () => showPreview('client'));
-    document.getElementById('generatePdfDevBtn').addEventListener('click', () => generatePDF('dev'));
-    document.getElementById('generatePdfClientBtn').addEventListener('click', () => generatePDF('client'));
+    document.getElementById('generatePdfDevBtn').addEventListener('click', () => generatePDF_TEXT('dev'));
+document.getElementById('generatePdfClientBtn').addEventListener('click', () => generatePDF_TEXT('client'));
+
     document.getElementById('closePreviewBtn').addEventListener('click', closePreview);
 
     // Event listeners para modais
@@ -1140,60 +1141,402 @@ function generatePreviewContent(type) {
     return content;
 }
 
-function generatePDF(type) {
-    if (!validateRequiredFields()) {
-        return;
-    }
-    
-    const content = generatePreviewContent(type);
-    
-    // Configurações do PDF
-    const opt = {
-        margin: [10, 10, 10, 10],
-        filename: `${type === 'dev' ? 'registro_desenvolvedores' : 'lista_servicos'}.pdf`,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
-            scale: 2,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: '#ffffff'
-        },
-        jsPDF: { 
-            unit: 'mm', 
-            format: 'a4', 
-            orientation: 'portrait',
-            compress: true
-        },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-    };
-    
-    // Criar elemento temporário para PDF
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = content;
-    tempDiv.style.cssText = `
-        position: absolute;
-        left: -9999px;
-        top: 0;
-        width: 210mm;
-        background: white;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        line-height: 1.4;
-        color: #333;
-        padding: 20px;
-    `;
-    
-    document.body.appendChild(tempDiv);
-    
-    html2pdf().set(opt).from(tempDiv).save().then(() => {
-        document.body.removeChild(tempDiv);
-        showNotification('PDF gerado com sucesso!', 'success');
-    }).catch(error => {
-        console.error('Erro ao gerar PDF:', error);
-        document.body.removeChild(tempDiv);
-        showNotification('Erro ao gerar PDF. Tente novamente.', 'error');
-    });
+
+// === [1] Lê os campos do formulário ===
+function collectFormData() {
+  const get = id => (document.getElementById(id)?.value ?? '').trim();
+  return {
+    contractorNameE: get('contractorNameE'),
+    contractorName:  get('contractorName'),
+    documenter:      get('documenter'),
+    contractDate:    get('contractDate'),
+    contractNumber:  get('contractNumber'),
+    additionalInfo:  get('additionalInfo'),
+    desiredServices: get('desiredServices'),
+    currentErp:      currentErp || 'Nenhum'
+  };
 }
+
+// === [2] Separa serviços selecionados / não selecionados do ERP atual ===
+function servicesBySelection() {
+  if (!currentErp || !erpData[currentErp]) return { selected: [], unselected: [] };
+  const all = erpData[currentErp].services || [];
+  return {
+    selected: all.filter(s => s.checked),
+    unselected: all.filter(s => !s.checked)
+  };
+}
+
+// ====== THEME / HELPERS DE LAYOUT ======
+const THEME = {
+  text:   '#2d3748',
+  sub:    '#4a5568',
+  mut:    '#718096',
+  ok:     '#2f855a',
+  warn:   '#c53030',
+  brand:  '#4f46e5', // roxinho elegante p/ títulos
+  bgCard: '#f8fafc',
+  bgOk:   '#f0fff4',
+  bgWarn: '#fffafa',
+  line:   '#e2e8f0'
+};
+
+// divisorzinho elegante
+function divider(margin=[0,8,0,8]) {
+  return {
+    canvas: [{ type:'line', x1:0, y1:0, x2:515, y2:0, lineWidth:1, lineColor:THEME.line }],
+    margin
+  };
+}
+
+// tabela K/V com visual caprichado
+function kvTable(rows) {
+  return {
+    table: {
+      widths: ['*','*'],
+      body: rows
+    },
+    layout: {
+      paddingLeft: () => 8,
+      paddingRight: () => 8,
+      paddingTop: () => 6,
+      paddingBottom: () => 6,
+      hLineWidth: (i) => (i === 0 || i === rows.length ? 0 : 1),
+      vLineWidth: () => 0,
+      hLineColor: () => THEME.line,
+      fillColor: (rowIndex) => (rowIndex % 2 === 0 ? '#ffffff' : '#fbfbfd')
+    },
+    margin: [0, 6, 0, 0]
+  };
+}
+
+// chip (pílula) para pequenos destaques
+function chip(text, color='#334155', bg='#eef2ff') {
+  return {
+    text,
+    color,
+    background: bg,
+    margin:[0,0,8,0],
+    fontSize:9,
+    bold:true,
+    lineHeight:1.6,
+    alignment:'center',
+    border: [false,false,false,false],
+    width: 'auto',
+    style:'chip'
+  };
+}
+
+// bloco de código/JSON bonitinho
+function codeBox(text) {
+  return {
+    table: {
+      widths: ['*'],
+      body: [[{ text, style:'code', preserveLeadingSpaces:true }]]
+    },
+    layout: {
+      paddingLeft: () => 8,
+      paddingRight: () => 8,
+      paddingTop: () => 6,
+      paddingBottom: () => 6,
+      hLineWidth: () => 1,
+      vLineWidth: () => 1,
+      hLineColor: () => THEME.line,
+      vLineColor: () => THEME.line
+    },
+    fillColor: '#f8fafc',
+    margin: [0, 4, 0, 6]
+  };
+}
+
+// estilos globais (usados pelos builders)
+const BASE_STYLES = {
+  h1:    { fontSize: 18, bold: true, color: THEME.brand },
+  h2:    { fontSize: 13, bold: true, color: THEME.sub },
+  h3:    { fontSize: 11, bold: true, color: THEME.text },
+  h3ok:  { fontSize: 11, bold: true, color: THEME.ok },
+  h3warn:{ fontSize: 11, bold: true, color: THEME.warn },
+  body:  { fontSize: 10, color: THEME.text },
+  mut:   { color: THEME.mut },
+  code:  { fontSize: 9, characterSpacing: 0.2, color: '#1f2937' },
+  chip:  { margin:[0,0,8,0], bold:true }
+};
+
+// rodapé com paginação
+const PAGE_FOOTER = function(currentPage, pageCount) {
+  return {
+    text: `Página ${currentPage} de ${pageCount}`,
+    alignment: 'center',
+    color: THEME.mut,
+    fontSize: 9,
+    margin: [0, 8, 0, 0]
+  };
+};
+
+// --- Card "DADOS DO CONTRATO" (igual à prévia) ---
+function contractInfoCard(f) {
+  const brDate = f.contractDate
+    ? new Date(f.contractDate).toLocaleDateString('pt-BR')
+    : '-';
+
+  return {
+    table: {
+      widths: [160, '*'],
+      body: [
+        [{ text:'Nome da empresa:',     bold:true }, f.contractorNameE || '-' ],
+        [{ text:'Nome do Contratante:', bold:true }, f.contractorName  || '-' ],
+        [{ text:'Documentado por:',     bold:true }, f.documenter      || '-' ],
+        [{ text:'Data:',                bold:true }, brDate ],
+        [{ text:'ERP Selecionado:',     bold:true }, f.currentErp      || '-' ],
+        [{ text:'Número do Contrato:',  bold:true }, f.contractNumber  || '-' ]
+      ]
+    },
+    layout: {
+      paddingLeft:   () => 12,
+      paddingRight:  () => 12,
+      paddingTop:    () => 8,
+      paddingBottom: () => 8,
+      hLineWidth: () => 0,
+      vLineWidth: () => 0
+    },
+    fillColor: THEME.bgCard, // já existe no seu THEME
+    margin: [0, 6, 0, 8]
+  };
+}
+
+// desenha um check independente de fonte
+// ✓ desenhado (não depende de fonte)
+function checkIcon(size = 11, color = THEME.ok) {
+  const t = size;
+  return {
+    canvas: [{
+      type: 'polyline',
+      points: [ {x:0, y:t*0.55}, {x:t*0.35, y:t}, {x:t, y:0} ],
+      lineWidth: 2, lineColor: color, lineCap: 'round', lineJoin: 'round'
+    }],
+    width: t + 2, height: t
+  };
+}
+
+// linha de título do serviço que NÃO quebra entre páginas
+function serviceTitleRow(text, color = THEME.ok) {
+  return {
+    table: {
+      widths: [14, '*'],
+      body: [[
+        checkIcon(11, color),
+        { text, style: 'h3', margin: [6,0,0,0], color }
+      ]],
+      dontBreakRows: true
+    },
+    layout: 'noBorders'
+  };
+}
+
+
+
+// ====== DEV: documento detalhado (igual à prévia Registro Dev) ======
+function buildDocDev(f, selected, unselected) {
+  const header = [
+    { text:'REGISTRO DE DESENVOLVEDORES', style:'h1', alignment:'center', margin:[0,0,0,6] },
+    divider([0,8,0,12])
+  ];
+
+  // Card unificado, igual à prévia
+  const dadosContrato = contractInfoCard(f);
+
+  const blocosSelecionados = selected.length
+    ? selected.map(s => {
+        const cfg = s.config || {};
+        const pre = cfg.prerequisitos || {};
+        const preTxt = [
+          pre.exigeContrato && 'Exige contrato',
+          pre.exigeCpfCnpj && 'Exige CPF/CNPJ',
+          pre.exigeLoginAtivo && 'Exige login ativo'
+        ].filter(Boolean).join(' • ');
+
+        const stack = [
+  serviceTitleRow(s.label, THEME.ok)  // em vez de { text:`✓ ${s.label}`, ... }
+];
+
+
+        if (cfg.descricao)  stack.push({ text:`Descrição: ${cfg.descricao}` });
+        if (cfg.instrucoes) stack.push({ text:`Instruções: ${cfg.instrucoes}` });
+
+        if (cfg.semAPI) {
+          stack.push({ text:'Status: SEM NECESSIDADE DE API', color:'#b45309', margin:[0,2,0,0] });
+        } else {
+          if (cfg.endpoint) stack.push({ text:`Endpoint: ${cfg.endpoint}`, margin:[0,2,0,0] });
+          if (cfg.parametros && cfg.parametros !== '{}') {
+            stack.push({ text:'Parâmetros:', bold:true, margin:[0,6,0,2] });
+            stack.push(codeBox(cfg.parametros));
+          }
+        }
+
+        if (preTxt)                stack.push({ text:`Pré-requisitos: ${preTxt}`, margin:[0,4,0,0] });
+        if (cfg.responsavelPadrao) stack.push({ text:`Responsável: ${cfg.responsavelPadrao}` });
+
+        return {
+            unbreakable: true,                    // evita quebra do card
+          table: { widths:['*'], body: [[{ stack, border:[false,false,false,false] }]] },
+          layout: {
+            hLineWidth: () => 1,
+            vLineWidth: () => 1,
+            hLineColor: () => THEME.line,
+            vLineColor: () => THEME.line,
+            paddingLeft: () => 10,
+            paddingRight: () => 10,
+            paddingTop: () => 10,
+            paddingBottom: () => 10
+          },
+          fillColor: THEME.bgOk,
+          margin:[0, 6, 0, 8]
+        };
+      })
+    : [{ text:'Nenhum serviço selecionado.', italics:true, color:THEME.mut }];
+
+  const blocosNaoSel = unselected.length ? [
+    { text:'SERVIÇOS NÃO SELECIONADOS', style:'h2', margin:[0,12,0,6] },
+    { table: { widths:['*'], body: unselected.map(s => [{ text:`✗ ${s.label}`, style:'h3warn' }]) }, layout: 'noBorders', margin:[0,0,0,6] }
+  ] : [];
+
+  const desiredBlock = f.desiredServices ? [
+    { text:'SERVIÇOS DESEJADOS (NÃO OFERECIDOS)', style:'h2', margin:[0,12,0,6] },
+    codeBox(f.desiredServices)
+  ] : [];
+
+  const infoBlock = f.additionalInfo ? [
+    { text:'INFORMAÇÕES ADICIONAIS', style:'h2', margin:[0,12,0,6] },
+    codeBox(f.additionalInfo)
+  ] : [];
+
+  return {
+    pageSize: 'A4',
+    pageMargins: [28, 32, 28, 40],
+    content: [
+      ...header,
+      { text:'DADOS DO CONTRATO', style:'h2' },
+      dadosContrato,
+      divider(),
+      { text:'SERVIÇOS SELECIONADOS COM CONFIGURAÇÕES', style:'h2', margin:[0,6,0,4] },
+      ...blocosSelecionados,
+      ...blocosNaoSel,
+      ...desiredBlock,
+      ...infoBlock,
+      divider([0,12,0,8]),
+      { text:`Documento gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, style:'mut', alignment:'center' }
+    ],
+    styles: BASE_STYLES,
+    defaultStyle: BASE_STYLES.body,
+    footer: PAGE_FOOTER
+  };
+}
+
+
+
+// ====== CLIENT: documento enxuto (igual à prévia Lista de Serviços) ======
+// ====== CLIENT: documento enxuto (igual à prévia Lista de Serviços) ======
+function buildDocClient(f, selected, unselected) {
+  const header = [
+    { text:'Contrato', style:'h1', alignment:'center', margin:[0,0,0,6] },
+    divider([0,8,0,12])
+  ];
+
+  // Card unificado, igual à prévia
+  const dadosContrato = contractInfoCard(f);
+
+  // Cards verdes por serviço (como sua prévia)
+  const listaSelecionados = selected.length
+    ? selected.map(s => ({
+        unbreakable: true,
+        table: {
+          widths: ['*'],
+          body: [[{
+            columns: [
+              checkIcon(11, THEME.ok),
+{ text: s.label, style: 'h3', margin: [6, 0, 0, 0], color: THEME.ok }
+
+            ],
+            border: [false, false, false, false]
+          }]]
+        },
+        layout: {
+          hLineWidth: () => 1,
+          vLineWidth: () => 1,
+          hLineColor: () => '#C6F6D5',
+          vLineColor: () => '#C6F6D5',
+          paddingLeft: () => 10,
+          paddingRight: () => 10,
+          paddingTop: () => 10,
+          paddingBottom: () => 10
+        },
+        fillColor: THEME.bgOk,
+        margin: [0, 4, 0, 6]
+      }))
+    : [{ text:'Nenhum serviço selecionado.', italics:true, color:THEME.mut, margin:[0,4,0,8] }];
+
+  const listaNaoSel = unselected.length ? [
+    { text:'SERVIÇOS NÃO SELECIONADOS', style:'h2', margin:[0,12,0,6] },
+    {
+      table: {
+        widths:['*'],
+        body: unselected.map(s => [{
+          columns: [
+            { text: '•', width: 12, alignment:'right', color: THEME.warn },
+            { text: s.label, color: THEME.mut, margin:[6,0,0,0] }
+          ],
+          border:[false,false,false,false]
+        }])
+      },
+      layout:'noBorders',
+      margin:[0,0,0,6]
+    }
+  ] : [];
+
+  return {
+    pageSize: 'A4',
+    pageMargins: [28, 32, 28, 40],
+    content: [
+      ...header,
+      { text: 'DADOS DO CONTRATO', style:'h2' },
+      dadosContrato,
+      divider(),
+      { text: 'SERVIÇOS SELECIONADOS', style:'h2', margin:[0,6,0,4] },
+      ...listaSelecionados,
+      ...listaNaoSel,
+      divider([0,12,0,8]),
+      { text:`Documento gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')}`, style:'mut', alignment:'center' }
+    ],
+    styles: BASE_STYLES,
+    defaultStyle: BASE_STYLES.body,
+    footer: PAGE_FOOTER
+  };
+}
+
+
+
+
+
+// === [3] Gera PDF com TEXTO (pdfMake) ===
+function generatePDF_TEXT(type) {
+  console.log('Gerando PDF tipo:', type);
+  if (!validateRequiredFields()) return;
+
+  const f = collectFormData();
+  const { selected, unselected } = servicesBySelection();
+
+  const docDefinition = (type === 'dev')
+    ? buildDocDev(f, selected, unselected)      // detalhado
+    : buildDocClient(f, selected, unselected);  // só nomes
+
+  pdfMake.createPdf(docDefinition).download(
+    type === 'dev' ? 'registro_desenvolvedores.pdf' : 'lista_servicos.pdf'
+  );
+}
+
+
+
+
 
 function saveData() {
     try {
@@ -1289,4 +1632,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 console.log('Script carregado com sucesso');
+
+
 
