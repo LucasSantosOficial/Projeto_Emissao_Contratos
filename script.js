@@ -248,6 +248,33 @@ const erpData = {
                 }
             },
             {
+                id: 'TESTE',
+                label: 'TESTE',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
                 id: 'cadastrar_lead',
                 label: 'Cadastrar lead',
                 checked: true,
@@ -304,7 +331,7 @@ const erpData = {
         active: true,
         services: [
             // Agente Financeiro
-            { id: 'agente_financeiro', label: 'Agente Financeiro', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
+            //{ id: 'agente_financeiro', label: 'Agente Financeiro', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
             { id: 'buscar_faturas_sgp', label: 'Buscar faturas', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
             { id: 'gera_fatura_pdf_pix', label: 'Gera fatura em PDF/PIX', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
             { id: 'desbloqueio_confianca_sgp', label: 'Desbloqueio de confiança', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
@@ -467,6 +494,8 @@ function setupModalEventListeners() {
     document.getElementById('closeConfigModal').addEventListener('click', closeConfigModal);
     document.getElementById('saveConfigBtn').addEventListener('click', saveServiceConfig);
     document.getElementById('resetConfigBtn').addEventListener('click', resetServiceConfig);
+    document.getElementById('newConfigSemAPI').addEventListener('change', toggleNewApiFields);
+
     // document.getElementById('deactivateParamsBtn').addEventListener('click', deactivateParameters);
     document.getElementById('deleteServiceBtn').addEventListener('click', deleteService);
     document.getElementById('configSemAPI').addEventListener('change', toggleApiFields);
@@ -814,10 +843,123 @@ function deselectAllServices() {
     showNotification('Todos os serviços desmarcados', 'warning');
 }
 
+
+
+
+// abre o modal "Novo Serviço" e monta os chips
+// abre o modal "Novo Serviço" e monta os chips
+function openNewServiceModal() {
+  if (!currentErp) {
+    showNotification('Selecione um ERP primeiro', 'error');
+    return;
+  }
+
+  // limpa e REABILITA o campo nome
+  const nameInput = document.getElementById('newServiceName');
+  nameInput.value = '';
+  nameInput.disabled = false;
+  document.getElementById('newServiceActive').checked = true;
+
+  // desenha os chips com data-key + click
+  const wrap = document.getElementById('presetServiceChips');
+  wrap.innerHTML = '';
+  Object.entries(PRESET_SERVICES).forEach(([key, preset]) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'chip-btn';
+    b.dataset.key = key;                 // <— IMPORTANTE
+    b.textContent = preset.label;
+    b.addEventListener('click', () => applyPresetToNewService(key));
+    wrap.appendChild(b);
+  });
+
+  // todos os chips voltam habilitados ao abrir
+  enableAllChips();
+
+  // zera a config do novo serviço
+  fillNewServiceConfig({
+    descricao: '',
+    instrucoes: '',
+    endpoint: '',
+    parametros: '{}',
+    prerequisitos: { exigeContrato:false, exigeCpfCnpj:false, exigeLoginAtivo:false },
+    responsavelPadrao: '',
+    ativo: true,
+    semAPI: false
+  });
+  toggleNewApiFields();
+
+  document.getElementById('newServiceModal').classList.add('show');
+}
+
+
+
+// aplica o preset e faz as regras de bloqueio
+function applyPresetToNewService(key) {
+  const preset = PRESET_SERVICES[key];
+  if (!preset) return;
+
+  // 1) Preenche e TRAVA o nome
+  const nameInput = document.getElementById('newServiceName');
+  nameInput.value = preset.label;
+  nameInput.disabled = true;
+
+  // 2) Aplica config do preset (cópia profunda)
+  fillNewServiceConfig(JSON.parse(JSON.stringify(preset.config)));
+
+  // 3) Desabilita TODOS os chips, exceto o clicado
+  document.querySelectorAll('#presetServiceChips .chip-btn').forEach(btn => {
+    const isSelected = btn.dataset.key === key;
+    btn.disabled = !isSelected;
+    btn.classList.toggle('selected', isSelected);
+    btn.classList.toggle('disabled', !isSelected);
+  });
+
+  const blk = document.getElementById('newServiceConfigBlock');
+  if (blk) blk.scrollIntoView({ behavior:'smooth', block:'center' });
+
+  showNotification(`Preset aplicado: ${preset.label}`, 'success');
+}
+
+
+// habilita/desabilita visualmente e funcionalmente um chip
+function setChipDisabled(key, disabled) {
+  const btn = document.querySelector(`#presetServiceChips .chip-btn[data-key="${key}"]`);
+  if (!btn) return;
+  btn.disabled = disabled;
+  btn.classList.toggle('disabled', disabled);
+}
+
+// abre o modal "Novo ERP" (faltava no seu arquivo)
 function openNewErpModal() {
-    document.getElementById('newErpName').value = '';
-    document.getElementById('newErpActive').checked = true;
-    document.getElementById('newErpModal').classList.add('show');
+  const name = document.getElementById('newErpName');
+  const active = document.getElementById('newErpActive');
+  const modal = document.getElementById('newErpModal');
+  if (name) name.value = '';
+  if (active) active.checked = true;
+  if (modal) modal.classList.add('show');
+}
+
+
+
+
+function openNewErpModal() {
+  const name = document.getElementById('newErpName');
+  const active = document.getElementById('newErpActive');
+  const modal = document.getElementById('newErpModal');
+
+  if (name)   name.value = '';
+  if (active) active.checked = true;
+
+  if (modal)  modal.classList.add('show');
+  else        console.warn('#newErpModal não encontrado no HTML');
+}
+
+
+function openNewErpModal() {
+  document.getElementById('newErpName').value = '';
+  document.getElementById('newErpActive').checked = true;
+  document.getElementById('newErpModal').classList.add('show');
 }
 
 function closeNewErpModal() {
@@ -853,6 +995,7 @@ function saveNewErp() {
     showNotification(`ERP ${name} adicionado com sucesso`, 'success');
 }
 
+
 function addErpCard(erpName, active) {
   const erpGrid = document.querySelector('.erp-grid');
   const card = document.createElement('div');
@@ -878,71 +1021,130 @@ function addErpCard(erpName, active) {
 }
 
 
-function openNewServiceModal() {
-    if (!currentErp) {
-        showNotification('Selecione um ERP primeiro', 'error');
-        return;
-    }
-    
-    document.getElementById('newServiceName').value = '';
-    document.getElementById('newServiceActive').checked = true;
-    document.getElementById('newServiceModal').classList.add('show');
+function applyPresetToNewService(key) {
+  const preset = PRESET_SERVICES[key];
+  if (!preset) return;
+
+  const nameInput = document.getElementById('newServiceName');
+
+  // 1) Preenche e BLOQUEIA o nome para QUALQUER preset
+  nameInput.value = preset.label;
+  nameInput.disabled = true;
+
+  // 2) Carrega a config do preset (cópia profunda)
+  fillNewServiceConfig(JSON.parse(JSON.stringify(preset.config)));
+
+  // 3) Seleção visual e conflitos
+  enableAllChips(); // limpa estados anteriores
+  const selectedBtn = document.querySelector(`#presetServiceChips .chip-btn[data-key="${key}"]`);
+  if (selectedBtn) selectedBtn.classList.add('selected');
+
+  // desativa apenas os chips que conflitam com o escolhido
+  (CONFLICT_MAP[key] || []).forEach(k => setChipDisabled(k, true));
+
+  // 4) Rola até a área de config
+  document.getElementById('newServiceConfigBlock')
+    .scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  showNotification(`Preset aplicado: ${preset.label}`, 'success');
 }
+
+
+
+function setChipDisabled(key, disabled) {
+  const btn = document.querySelector(`#presetServiceChips .chip-btn[data-key="${key}"]`);
+  if (!btn) return;
+  btn.disabled = disabled;
+  btn.classList.toggle('disabled', disabled);
+}
+
+
+function fillNewServiceConfig(cfg) {
+  document.getElementById('newConfigDescricao').value = cfg.descricao || '';
+  document.getElementById('newConfigInstrucoes').value = cfg.instrucoes || '';
+  document.getElementById('newConfigSemAPI').checked = !!cfg.semAPI;
+  document.getElementById('newConfigEndpoint').value = cfg.endpoint || '';
+  document.getElementById('newConfigParametros').value = cfg.parametros || '{}';
+
+  document.getElementById('newConfigExigeContrato').checked = !!cfg.prerequisitos?.exigeContrato;
+  document.getElementById('newConfigExigeCpfCnpj').checked = !!cfg.prerequisitos?.exigeCpfCnpj;
+  document.getElementById('newConfigExigeLogin').checked = !!cfg.prerequisitos?.exigeLoginAtivo;
+
+  document.getElementById('newConfigResponsavel').value = cfg.responsavelPadrao || '';
+
+  toggleNewApiFields();
+}
+function readNewServiceConfigFromModal() {
+  const parametros = document.getElementById('newConfigParametros').value || '{}';
+  // valida JSON se necessário
+  try { if (parametros.trim()) JSON.parse(parametros); }
+  catch { showNotification('Parâmetros JSON inválidos', 'error'); return null; }
+
+  return {
+    descricao: document.getElementById('newConfigDescricao').value,
+    instrucoes: document.getElementById('newConfigInstrucoes').value,
+    endpoint: document.getElementById('newConfigEndpoint').value,
+    parametros,
+    prerequisitos: {
+      exigeContrato: document.getElementById('newConfigExigeContrato').checked,
+      exigeCpfCnpj: document.getElementById('newConfigExigeCpfCnpj').checked,
+      exigeLoginAtivo: document.getElementById('newConfigExigeLogin').checked
+    },
+    responsavelPadrao: document.getElementById('newConfigResponsavel').value,
+    ativo: document.getElementById('newServiceActive').checked,
+    semAPI: document.getElementById('newConfigSemAPI').checked
+  };
+}
+function toggleNewApiFields() {
+  const semAPI = document.getElementById('newConfigSemAPI').checked;
+  document.getElementById('newApiFields').style.display = semAPI ? 'none' : 'block';
+}
+
+
+
 
 function closeNewServiceModal() {
     document.getElementById('newServiceModal').classList.remove('show');
 }
 
 function saveNewService() {
-    const name = document.getElementById('newServiceName').value.trim();
-    const active = document.getElementById('newServiceActive').checked;
-    
-    if (!name) {
-        showNotification('Nome do serviço é obrigatório', 'error');
-        return;
-    }
-    
-    if (!currentErp) {
-        showNotification('Selecione um ERP primeiro', 'error');
-        return;
-    }
-    
-    const erp = erpData[currentErp];
-    const serviceId = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
-    
-    // Verificar se já existe
-    if (erp.services.find(s => s.id === serviceId)) {
-        showNotification('Serviço já existe', 'error');
-        return;
-    }
-    
-    // Criar novo serviço
-    const newService = {
-        id: serviceId,
-        label: name,
-        checked: active,
-        config: {
-            descricao: '',
-            instrucoes: '',
-            endpoint: '',
-            parametros: '{}',
-            prerequisitos: {
-                exigeContrato: false,
-                exigeCpfCnpj: false,
-                exigeLoginAtivo: false
-            },
-            responsavelPadrao: '',
-            ativo: active,
-            semAPI: false
-        }
-    };
-    
-    erp.services.push(newService);
-    loadServices(currentErp);
-    saveData();
-    closeNewServiceModal();
-    showNotification(`Serviço "${name}" adicionado com sucesso`, 'success');
+  const name = (document.getElementById('newServiceName').value || '').trim();
+  const active = document.getElementById('newServiceActive').checked;
+
+  if (!name) {
+    showNotification('Nome do serviço é obrigatório', 'error');
+    return;
+  }
+  if (!currentErp) {
+    showNotification('Selecione um ERP primeiro', 'error');
+    return;
+  }
+
+  const erp = erpData[currentErp];
+  const serviceId = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+  if (erp.services.find(s => s.id === serviceId)) {
+    showNotification('Serviço já existe', 'error');
+    return;
+  }
+
+  // lê config do modal
+  const cfg = readNewServiceConfigFromModal();
+  if (!cfg) return; // JSON inválido etc.
+
+  const newService = {
+    id: serviceId,
+    label: name,
+    checked: active,
+    config: cfg
+  };
+
+  erp.services.push(newService);
+  loadServices(currentErp);
+  saveData();
+  closeNewServiceModal();
+  showNotification(`Serviço "${name}" adicionado com sucesso`, 'success');
 }
+
 
 function validateRequiredFields() {
   // Lê valores (se o campo não existir no HTML, trata como vazio)
@@ -1545,6 +1747,80 @@ function saveData() {
         console.error('Erro ao salvar dados:', error);
     }
 }
+
+// Presets de serviços para o modal "Adicionar Novo Serviço"
+const PRESET_SERVICES = {
+  buscar_cliente: {
+    label: 'Buscar cliente',
+    config: erpData.IXC.services.find(s => s.id === 'buscar_cliente').config
+  },
+  buscar_contrato: {
+    label: 'Buscar contrato',
+    config: erpData.IXC.services.find(s => s.id === 'buscar_contrato').config
+  },
+  buscar_faturas: {
+    label: 'Buscar faturas',
+    config: erpData.IXC.services.find(s => s.id === 'buscar_faturas').config
+  },
+  gerar_fatura: {
+    label: 'Gerar fatura',
+    config: erpData.IXC.services.find(s => s.id === 'gerar_fatura').config
+  },
+  gerar_pix_fatura: {
+    label: 'Gerar PIX da fatura',
+    config: erpData.IXC.services.find(s => s.id === 'gerar_pix_fatura').config
+  },
+  renegociar_fatura: {
+    label: 'Renegociar fatura',
+    config: erpData.IXC.services.find(s => s.id === 'renegociar_fatura').config
+  },
+  desbloqueio_confianca: {
+    label: 'Desbloqueio de confiança',
+    config: erpData.IXC.services.find(s => s.id === 'desbloqueio_confianca').config
+  },
+  verificar_sinal: {
+    label: 'Verificar sinal',
+    config: erpData.IXC.services.find(s => s.id === 'verificar_sinal').config
+  },
+  abrir_chamado: {
+    label: 'Abrir chamado',
+    config: erpData.IXC.services.find(s => s.id === 'abrir_chamado').config
+  },
+  TESTE: {
+    label: 'TESTE',
+    config: erpData.IXC.services.find(s => s.id === 'TESTE').config
+  }
+};
+
+// chips que devem ser desativados quando um preset específico é escolhido
+
+
+// Helpers para lidar com os chips
+function enableAllChips() {
+  document.querySelectorAll('#presetServiceChips .chip-btn').forEach(btn => {
+    btn.disabled = false;
+    btn.classList.remove('disabled', 'selected');
+  });
+}
+
+function setChipDisabled(key, disabled) {
+  const btn = document.querySelector(`#presetServiceChips .chip-btn[data-key="${key}"]`);
+  if (!btn) return;
+  btn.disabled = disabled;
+  btn.classList.toggle('disabled', disabled);
+}
+
+
+function setChipDisabled(key, disabled) {
+  const btn = document.querySelector(`#presetServiceChips .chip-btn[data-key="${key}"]`);
+  if (!btn) return;
+  btn.disabled = disabled;
+  btn.classList.toggle('disabled', disabled);
+}
+
+
+// helper para clonar config sem referência
+const cloneConfig = cfg => JSON.parse(JSON.stringify(cfg));
 
 function loadSavedData() {
     try {

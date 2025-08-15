@@ -60,26 +60,7 @@
                         <h3>SGP</h3>
                         <span class="erp-status active">Ativo</span>
                     </div>
-                    <div class="erp-card disabled" data-erp="VOALLE">
-                        <h3>VOALLE</h3>
-                        <span class="erp-status coming-soon">Em breve</span>
-                    </div>
-                    <div class="erp-card disabled" data-erp="FLUXOS">
-                        <h3>FLUXOS</h3>
-                        <span class="erp-status coming-soon">Em breve</span>
-                    </div>
-                    <div class="erp-card disabled" data-erp="MK">
-                        <h3>MK</h3>
-                        <span class="erp-status coming-soon">Em breve</span>
-                    </div>
-                    <div class="erp-card disabled" data-erp="HUBSOFT">
-                        <h3>HUBSOFT</h3>
-                        <span class="erp-status coming-soon">Em breve</span>
-                    </div>
-                    <div class="erp-card disabled" data-erp="TOPSAPP">
-                        <h3>TOPSAPP</h3>
-                        <span class="erp-status coming-soon">Em breve</span>
-                    </div>
+                    
                 </div>
                 
                 <div class="add-erp-section">
@@ -241,30 +222,97 @@
         </div>
 
         <!-- Modal para Adicionar Novo Serviço -->
-        <div id="newServiceModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>Adicionar Novo Serviço</h3>
-                    <button type="button" id="closeNewServiceModal" class="close-btn">X</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="newServiceName">Nome do serviço</label>
-                        <input type="text" id="newServiceName" placeholder="Digite o nome do serviço" required>
-                    </div>
-                    <div class="form-group checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="newServiceActive" checked>
-                            Serviço ativo
-                        </label>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="cancelNewService" class="action-btn secondary">Cancelar</button>
-                    <button type="button" id="saveNewService" class="action-btn primary1">Adicionar Serviço</button>
-                </div>
-            </div>
+        <!-- Modal para Adicionar Novo Serviço -->
+<div id="newServiceModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Adicionar Novo Serviço</h3>
+      <button type="button" id="closeNewServiceModal" class="close-btn">X</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Presets -->
+      <div class="form-group">
+        <label>Atalhos de serviço</label>
+        <div id="presetServiceChips" class="chip-row">
+          <!-- preenchido via JS -->
         </div>
+        <small class="field-hint">Clique para preencher automaticamente. Você pode editar depois.</small>
+      </div>
+
+      <!-- Nome/ativo -->
+      <div class="form-group">
+        <label for="newServiceName">Nome do serviço</label>
+        <input type="text" id="newServiceName" placeholder="Digite o nome do serviço" required>
+      </div>
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="newServiceActive" checked>
+          Serviço ativo
+        </label>
+      </div>
+
+      <!-- Config do novo serviço (igual ao modal de Configurar) -->
+      <div id="newServiceConfigBlock" class="config-form">
+        <div class="form-group">
+          <label for="newConfigDescricao">Descrição interna</label>
+          <input type="text" id="newConfigDescricao" placeholder="Descrição breve do serviço">
+        </div>
+
+        <div class="form-group">
+          <label for="newConfigInstrucoes">Instruções/Notas operacionais</label>
+          <textarea id="newConfigInstrucoes" rows="3" placeholder="Instruções detalhadas para uso do serviço"></textarea>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="newConfigSemAPI">
+            <span class="erp-status no-api">Sem necessidade de API</span>
+          </label>
+        </div>
+
+        <div id="newApiFields">
+          <div class="form-group">
+            <label for="newConfigEndpoint">Endpoint/API/Integração</label>
+            <input type="text" id="newConfigEndpoint" placeholder="https://api.exemplo.com/endpoint">
+          </div>
+
+          <div class="form-group">
+            <label for="newConfigParametros">Parâmetros padrão (JSON)</label>
+            <textarea id="newConfigParametros" rows="4" placeholder='{"exemplo": "valor"}'></textarea>
+            <small class="field-hint">Formato JSON válido</small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Pré-requisitos</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="newConfigExigeContrato"> Exige contrato
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="newConfigExigeCpfCnpj"> Exige CPF/CNPJ
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="newConfigExigeLogin"> Exige login ativo
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="newConfigResponsavel">Responsável padrão</label>
+          <input type="text" id="newConfigResponsavel" placeholder="Nome do responsável">
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" id="cancelNewService" class="action-btn secondary">Cancelar</button>
+      <button type="button" id="saveNewService" class="action-btn primary1">Adicionar Serviço</button>
+    </div>
+  </div>
+</div>
+
     </div>
 
     
