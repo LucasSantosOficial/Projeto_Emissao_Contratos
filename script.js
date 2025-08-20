@@ -1,3 +1,7 @@
+
+// === Comportamento de novo ERP ===
+const AUTO_ADD_DEFAULT_SERVICES = false; // false = não pré-popula serviços no novo ERP
+
 // Dados dos ERPs e serviços
 const erpData = {
     IXC: {
@@ -248,33 +252,6 @@ const erpData = {
                 }
             },
             {
-                id: 'TESTE',
-                label: 'TESTE',
-                checked: true,
-                config: {
-                    descricao: 'Abertura de chamados técnicos',
-                    instrucoes: 'Registra solicitações de suporte técnico',
-                    endpoint: 'https://host/webservice/v1/cliente_contrato',
-                    parametros: JSON.stringify({
-                        "qtype": "cliente_contrato.id",
-                        "query": "3,1",
-                        "oper": "NI",
-                        "page": "1",
-                        "rp": "100",
-                        "sortname": "cliente_contrato.id",
-                        "sortorder": "asc"
-                    }, null, 2),
-                    prerequisitos: {
-                        exigeContrato: true,
-                        exigeCpfCnpj: false,
-                        exigeLoginAtivo: true
-                    },
-                    responsavelPadrao: 'Suporte Técnico',
-                    ativo: true,
-                    semAPI: false
-                }
-            },
-            {
                 id: 'cadastrar_lead',
                 label: 'Cadastrar lead',
                 checked: true,
@@ -323,7 +300,250 @@ const erpData = {
                     ativo: true,
                     semAPI: false
                 }
-            }
+            },
+            {
+                id: 'TESTE',
+                label: 'TESTE',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
+                id: 'TESTE2',
+                label: 'TESTE2',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
+                id: 'TESTE3',
+                label: 'TESTE3',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
+                id: 'TESTE4',
+                label: 'TESTE4',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
+                id: 'TESTE5',
+                label: 'TESTE55',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
+                id: 'TESTE6',
+                label: 'TESTE6',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
+                id: 'TESTE7',
+                label: 'TESTE7',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
+                id: 'TESTE8',
+                label: 'TESTE8',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
+            {
+                id: 'TESTE9',
+                label: 'TESTE9',
+                checked: true,
+                config: {
+                    descricao: 'Abertura de chamados técnicos',
+                    instrucoes: 'Registra solicitações de suporte técnico',
+                    endpoint: 'https://host/webservice/v1/cliente_contrato',
+                    parametros: JSON.stringify({
+                        "qtype": "cliente_contrato.id",
+                        "query": "3,1",
+                        "oper": "NI",
+                        "page": "1",
+                        "rp": "100",
+                        "sortname": "cliente_contrato.id",
+                        "sortorder": "asc"
+                    }, null, 2),
+                    prerequisitos: {
+                        exigeContrato: true,
+                        exigeCpfCnpj: false,
+                        exigeLoginAtivo: true
+                    },
+                    responsavelPadrao: 'Suporte Técnico',
+                    ativo: true,
+                    semAPI: false
+                }
+            },
         ]
     },
     SGP: {
@@ -348,6 +568,8 @@ const erpData = {
             { id: 'alteracao_data_fatura_pro_rata', label: 'Alteração de data com fatura pró-rata', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
             
             // Agente Suporte
+            
+
             { id: 'agente_suporte', label: 'Agente Suporte', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
             { id: 'identificar_motivo_bloqueio', label: 'Identificar motivo de bloqueio', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
             { id: 'identificar_dispositivo_incompativel', label: 'Identificar dispositivo incompatível', checked: true, config: { descricao: '', instrucoes: '', endpoint: '', parametros: '{}', prerequisitos: { exigeContrato: false, exigeCpfCnpj: false, exigeLoginAtivo: false }, responsavelPadrao: '', ativo: true, semAPI: false } },
@@ -417,7 +639,8 @@ function deleteCustomErp() {
     }
 
     // Impede exclusão de ERPs fixos
-    const fixedErps = ['IXC', 'SGP', 'VOALLE', 'FLUXOS', 'MK', 'HUBSOFT', 'TOPSAPP'];
+    const fixedErps = ['IXC', 'SGP', //'VOALLE', 'FLUXOS', 'MK', 'HUBSOFT', 'TOPSAPP'
+    ];
     if (fixedErps.includes(currentErp)) {
         showNotification('Este ERP não pode ser excluído', 'error');
         return;
@@ -450,10 +673,10 @@ function deleteCustomErp() {
 
 
 function initializeApp() {
-    console.log('Aplicação inicializada com sucesso');
     // Definir data atual
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('contractDate').value = today;
+    ensureProtocolFilled();
 }
 
 function setupEventListeners() {
@@ -465,6 +688,7 @@ function setupEventListeners() {
             }
         });
     });
+    
 
     // Event listeners para botões principais
     document.getElementById('addNewErpBtn').addEventListener('click', openNewErpModal);
@@ -525,26 +749,21 @@ function bind(id, event, handler) {
 
 
 function selectErp(erpName) {
-    // Remover seleção anterior
-    document.querySelectorAll('.erp-card').forEach(card => {
-        card.classList.remove('selected');
-    });
+  document.querySelectorAll('.erp-card').forEach(card => card.classList.remove('selected'));
+  currentErp = erpName;
+  document.querySelector(`[data-erp="${erpName}"]`).classList.add('selected');
 
-    // Selecionar novo ERP
-    const selectedCard = document.querySelector(`[data-erp="${erpName}"]`);
-    selectedCard.classList.add('selected');
-    
-    currentErp = erpName;
-    
-    // Mostrar seção de serviços
-    document.getElementById('servicesSection').style.display = 'block';
-    document.getElementById('servicesTitle').textContent = `Serviços ${erpName}`;
-    
-    // Carregar serviços
-    loadServices(erpName);
-    
-    showNotification(`ERP ${erpName} selecionado`, 'success');
+  // só completa “serviços padrão” quando o modo estiver ligado
+  if (AUTO_ADD_DEFAULT_SERVICES && !erpData[erpName].services?.length) {
+    addDefaultServicesToErp(erpName);
+  }
+
+  document.getElementById('servicesSection').style.display = 'block';
+  document.getElementById('servicesTitle').textContent = `Serviços ${erpName}`;
+  loadServices(erpName);
+  showNotification(`ERP ${erpName} selecionado`, 'success');
 }
+
 
 function loadServices(erpName) {
     const servicesList = document.getElementById('servicesList');
@@ -844,53 +1063,108 @@ function deselectAllServices() {
 }
 
 
-
-
 // abre o modal "Novo Serviço" e monta os chips
-// abre o modal "Novo Serviço" e monta os chips
+let newServiceSelectedKeys = new Set();
+
 function openNewServiceModal() {
-  if (!currentErp) {
-    showNotification('Selecione um ERP primeiro', 'error');
-    return;
-  }
+  if (!currentErp) { showNotification('Selecione um ERP primeiro', 'error'); return; }
 
-  // limpa e REABILITA o campo nome
+  newServiceSelectedKeys.clear();
+
   const nameInput = document.getElementById('newServiceName');
   nameInput.value = '';
   nameInput.disabled = false;
-  document.getElementById('newServiceActive').checked = true;
 
-  // desenha os chips com data-key + click
+  // se você também não quiser marcar o serviço recém-criado:
+  // document.getElementById('newServiceActive').checked = false;
+  document.getElementById('newServiceActive').checked = true; // mantém seu padrão atual
+
   const wrap = document.getElementById('presetServiceChips');
   wrap.innerHTML = '';
-  Object.entries(PRESET_SERVICES).forEach(([key, preset]) => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'chip-btn';
-    b.dataset.key = key;                 // <— IMPORTANTE
-    b.textContent = preset.label;
-    b.addEventListener('click', () => applyPresetToNewService(key));
-    wrap.appendChild(b);
-  });
 
-  // todos os chips voltam habilitados ao abrir
-  enableAllChips();
+    // ... você já montou os chips em wrap = document.getElementById('presetServiceChips')
 
-  // zera a config do novo serviço
-  fillNewServiceConfig({
-    descricao: '',
-    instrucoes: '',
-    endpoint: '',
-    parametros: '{}',
-    prerequisitos: { exigeContrato:false, exigeCpfCnpj:false, exigeLoginAtivo:false },
-    responsavelPadrao: '',
-    ativo: true,
-    semAPI: false
-  });
+  // cria a barra de busca se ainda não existir
+  let searchWrap = document.getElementById('chipSearchWrap');
+  if (!searchWrap) {
+    searchWrap = document.createElement('div');
+    searchWrap.id = 'chipSearchWrap';
+    searchWrap.className = 'chip-search';
+    searchWrap.innerHTML = `
+      <input id="chipSearch" type="text" placeholder="Pesquisar serviço..." autocomplete="off">
+    `;
+    // insere ANTES da lista de chips
+    wrap.parentNode.insertBefore(searchWrap, wrap);
+
+    // placeholder "nenhum resultado"
+    const tip = document.createElement('div');
+    tip.id = 'chipNoResults';
+    tip.className = 'chip-empty';
+    tip.textContent = 'Nenhum serviço encontrado.';
+    tip.style.display = 'none';
+    wrap.parentNode.insertBefore(tip, wrap.nextSibling);
+  }
+
+  // liga o filtro
+  const input = document.getElementById('chipSearch');
+  input.value = '';
+  input.oninput = debounce(e => filterPresetChips(e.target.value), 60);
+  filterPresetChips(''); // reseta ao abrir
+
+
+  const existingIds = new Set((erpData[currentErp]?.services || []).map(s => s.id));
+
+  // só mostra chips que AINDA NÃO existem nesse ERP
+  const availablePresets = Object.values(PRESET_SERVICES).filter(p => !existingIds.has(p.id));
+
+  if (availablePresets.length === 0) {
+    wrap.innerHTML = '<small class="muted">Todos os atalhos já foram adicionados para este ERP.</small>';
+  } else {
+    availablePresets.forEach(preset => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'chip-btn';
+      b.dataset.key = preset.id;
+      b.textContent = preset.label;
+      b.addEventListener('click', () => togglePresetChip(preset.id, b));
+      wrap.appendChild(b);
+    });
+  }
+
+  // começa com config em branco
+  fillNewServiceConfig(BLANK_CONFIG);
   toggleNewApiFields();
-
   document.getElementById('newServiceModal').classList.add('show');
 }
+
+
+function togglePresetChip(key, btn) {
+  if (newServiceSelectedKeys.has(key)) {
+    newServiceSelectedKeys.delete(key);
+    btn.classList.remove('selected');
+  } else {
+    newServiceSelectedKeys.add(key);
+    btn.classList.add('selected');
+  }
+  updateNewServiceFormState();
+}
+
+function updateNewServiceFormState() {
+  const nameInput = document.getElementById('newServiceName');
+
+  if (newServiceSelectedKeys.size > 0) {
+    // usa template do PRIMEIRO selecionado (se houver). O restante receberá a MESMA config ao salvar.
+    const firstKey = [...newServiceSelectedKeys][0];
+    fillNewServiceConfig(getTemplate(currentErp, firstKey));
+    nameInput.disabled = true;
+    nameInput.value = ''; // usando presets
+  } else {
+    // sem preset -> usuário digita nome e preenche tudo manualmente
+    fillNewServiceConfig(BLANK_CONFIG);
+    nameInput.disabled = false;
+  }
+}
+
 
 
 
@@ -932,13 +1206,17 @@ function setChipDisabled(key, disabled) {
 
 // abre o modal "Novo ERP" (faltava no seu arquivo)
 function openNewErpModal() {
-  const name = document.getElementById('newErpName');
-  const active = document.getElementById('newErpActive');
-  const modal = document.getElementById('newErpModal');
+  const name  = document.getElementById('newErpName');
   if (name) name.value = '';
-  if (active) active.checked = true;
-  if (modal) modal.classList.add('show');
+  //const active = document.getElementById('newErpActive');
+  const modal = document.getElementById('newErpModal');
+
+  if (name)   name.value = '';
+  //if (active) active.checked = true;  // só marca se existir
+  if (modal)  modal.classList.add('show');
+  else        console.warn('#newErpModal não encontrado no HTML');
 }
+
 
 
 
@@ -958,7 +1236,7 @@ function openNewErpModal() {
 
 function openNewErpModal() {
   document.getElementById('newErpName').value = '';
-  document.getElementById('newErpActive').checked = true;
+  //document.getElementById('newErpActive').checked = true;
   document.getElementById('newErpModal').classList.add('show');
 }
 
@@ -967,58 +1245,63 @@ function closeNewErpModal() {
 }
 
 function saveNewErp() {
-    const name = document.getElementById('newErpName').value.trim();
-    const active = document.getElementById('newErpActive').checked;
-    
-    if (!name) {
-        showNotification('Nome do ERP é obrigatório', 'error');
-        return;
-    }
-    
-    if (erpData[name.toUpperCase()]) {
-        showNotification('ERP já existe', 'error');
-        return;
-    }
-    
-    // Criar novo ERP
-    erpData[name.toUpperCase()] = {
-        name: name.toUpperCase(),
-        active: active,
-        services: []
-    };
-    
-    // Adicionar card do ERP
-    addErpCard(name.toUpperCase(), active);
-    
-    saveData();
-    closeNewErpModal();
-    showNotification(`ERP ${name} adicionado com sucesso`, 'success');
+  const name = document.getElementById('newErpName').value.trim();
+  // const active = document.getElementById('newErpActive').checked;  // <- você comentou essa opção
+  const active = true; // mantenha sempre ativo por enquanto
+
+  if (!name) { showNotification('Nome do ERP é obrigatório', 'error'); return; }
+  const nameUpper = name.toUpperCase();
+  if (erpData[nameUpper]) { showNotification('ERP já existe', 'error'); return; }
+
+  erpData[nameUpper] = { name: nameUpper, active, services: [] };
+
+  // só pré-popula se você ligar o switch acima
+  if (AUTO_ADD_DEFAULT_SERVICES) addDefaultServicesToErp(nameUpper);
+
+  addErpCard(nameUpper, active);
+  saveData();
+  closeNewErpModal();
+  showNotification(`ERP ${name} adicionado com sucesso`, 'success');
 }
 
 
-function addErpCard(erpName, active) {
+
+function addDefaultServicesToErp(erpName) {
+  const erp = erpData[erpName];
+  if (!erp) return;
+  const existing = new Set(erp.services.map(s => s.id));
+  Object.values(PRESET_SERVICES).forEach(svc => {
+    if (!existing.has(svc.id)) {
+      erp.services.push({
+        id: svc.id,
+        label: svc.label,
+        checked: false,          // <<< NUNCA marcado por padrão
+        config: getTemplate(erpName, svc.id) // ou BLANK_CONFIG
+      });
+    }
+  });
+}
+
+
+
+
+
+function addErpCard(erpName, active = true) {
   const erpGrid = document.querySelector('.erp-grid');
   const card = document.createElement('div');
-  card.className = `erp-card ${active ? 'active' : 'disabled'}`;
+  card.className = 'erp-card active';
   card.dataset.erp = erpName;
 
   card.innerHTML = `
     <h3>${erpName}</h3>
-    <span class="erp-status ${active ? 'active' : 'coming-soon'}">
-      ${active ? 'Ativo' : 'Em breve'}
-    </span>
+    <span class="erp-status active">Ativo</span>
   `;
 
-  // antes estava tentando: insertBefore(card, document.querySelector('.add-erp-section'))
-  // mas .add-erp-section não é filho de .erp-grid.
-  erpGrid.appendChild(card); // ✅ adiciona ao final da grid
-
-  if (active) {
-    card.addEventListener('click', function () {
-      selectErp(this.dataset.erp);
-    });
-  }
+  erpGrid.appendChild(card);
+  card.addEventListener('click', function () { selectErp(this.dataset.erp); });
 }
+
+
 
 
 function applyPresetToNewService(key) {
@@ -1108,42 +1391,59 @@ function closeNewServiceModal() {
 }
 
 function saveNewService() {
-  const name = (document.getElementById('newServiceName').value || '').trim();
-  const active = document.getElementById('newServiceActive').checked;
+  const erpName = currentErp;
+  if (!erpName) { showNotification('Selecione um ERP primeiro', 'error'); return; }
+  const erp = erpData[erpName];
 
-  if (!name) {
-    showNotification('Nome do serviço é obrigatório', 'error');
-    return;
-  }
-  if (!currentErp) {
-    showNotification('Selecione um ERP primeiro', 'error');
-    return;
-  }
-
-  const erp = erpData[currentErp];
-  const serviceId = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
-  if (erp.services.find(s => s.id === serviceId)) {
-    showNotification('Serviço já existe', 'error');
-    return;
-  }
-
-  // lê config do modal
   const cfg = readNewServiceConfigFromModal();
-  if (!cfg) return; // JSON inválido etc.
+  if (!cfg) return;
 
-  const newService = {
-    id: serviceId,
-    label: name,
-    checked: active,
-    config: cfg
-  };
+  const existing = new Set(erp.services.map(s => s.id));
+  let created = 0, duplicated = 0;
 
-  erp.services.push(newService);
-  loadServices(currentErp);
+  if (newServiceSelectedKeys.size > 0) {
+    // múltiplos atalhos
+    newServiceSelectedKeys.forEach(key => {
+      const preset = PRESET_SERVICES[key];
+      if (!preset) return;
+      if (existing.has(preset.id)) { duplicated++; return; } // já existe -> ignora
+      erp.services.push({
+        id: preset.id,
+        label: preset.label,
+        checked: document.getElementById('newServiceActive').checked,
+        config: JSON.parse(JSON.stringify(cfg))
+      });
+      saveTemplate(erpName, preset.id, cfg);
+      created++;
+    });
+  } else {
+    // serviço manual
+    const name = (document.getElementById('newServiceName').value || '').trim();
+    if (!name) { showNotification('Nome do serviço é obrigatório', 'error'); return; }
+    const id = name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+    if (existing.has(id)) { showNotification('Este serviço já está cadastrado para este ERP', 'error'); return; }
+
+    erp.services.push({
+      id,
+      label: name,
+      checked: document.getElementById('newServiceActive').checked,
+      config: JSON.parse(JSON.stringify(cfg))
+    });
+    saveTemplate(erpName, id, cfg);
+    created = 1;
+  }
+
+  loadServices(erpName);
   saveData();
   closeNewServiceModal();
-  showNotification(`Serviço "${name}" adicionado com sucesso`, 'success');
+
+  let msg = '';
+  if (created) msg += `${created} serviço(s) adicionado(s). `;
+  if (duplicated) msg += `${duplicated} já existia(m) e foi/foram ignorado(s).`;
+  showNotification(msg || 'Nada foi adicionado', created ? 'success' : 'info');
 }
+
+
 
 
 function validateRequiredFields() {
@@ -1152,16 +1452,24 @@ function validateRequiredFields() {
   const contractorNameEl  = document.getElementById('contractorName');
   const documenterEl      = document.getElementById('documenter');
   const contractorNameEEl = document.getElementById('contractorNameE');
+  const contractDateEl   = document.getElementById('contractDate');
+  const contractNumberEl = document.getElementById('contractNumber');
+
 
   const contractorName  = contractorNameEl ? contractorNameEl.value.trim()  : '';
   const documenter      = documenterEl ? documenterEl.value.trim()          : '';
   const contractorNameE = contractorNameEEl ? contractorNameEEl.value.trim(): '';
+const contractDate   = contractDateEl ? contractDateEl.value.trim()      : '';
+const contractNumber = contractNumberEl ? contractNumberEl.value.trim()  : '';
+
 
   const missingFields = [];
 
   if (!contractorName)  missingFields.push({ id: 'contractorName',  label: 'Nome do Contratante' });
   if (!documenter)      missingFields.push({ id: 'documenter',      label: 'Quem está documentando' });
   if (!contractorNameE) missingFields.push({ id: 'contractorNameE', label: 'Contractor Name E' });
+if (!contractDate)   missingFields.push({ id: 'contractDate',   label: 'Data do Contrato' });
+  if (!contractNumber) missingFields.push({ id: 'contractNumber', label: 'Número do Contrato' });
 
   if (missingFields.length > 0) {
     // Foca no primeiro campo ausente
@@ -1185,7 +1493,7 @@ function showPreview(type) {
     }
     
     const content = generatePreviewContent(type);
-    document.getElementById('previewTitle').textContent = type === 'dev' ? 'Prévia - Registro de Desenvolvedores' : 'Prévia - Lista de Serviços';
+    document.getElementById('previewTitle').textContent = type === 'dev' ? 'Prévia - Registro de Desenvolvedores' : 'Prévia - Contrato de Serviços';
     document.getElementById('previewContent').innerHTML = content;
     document.getElementById('pdfPreview').style.display = 'block';
     
@@ -1209,7 +1517,7 @@ function generatePreviewContent(type) {
     let content = `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
             <h1 style="color: #4a5568; text-align: center; margin-bottom: 2rem;">
-                ${type === 'dev' ? 'REGISTRO DE DESENVOLVEDORES' : 'LISTA DE SERVIÇOS'}
+                ${type === 'dev' ? 'REGISTRO DE DESENVOLVEDORES' : 'CONTRATO DE SERVIÇOS'}
             </h1>
             
             <div style="margin-bottom: 2rem; padding: 1rem; background: #f8fafc; border-radius: 8px;">
@@ -1637,7 +1945,6 @@ function buildDocDev(f, selected, unselected) {
 
 
 // ====== CLIENT: documento enxuto (igual à prévia Lista de Serviços) ======
-// ====== CLIENT: documento enxuto (igual à prévia Lista de Serviços) ======
 function buildDocClient(f, selected, unselected) {
   const header = [
     { text:'Contrato', style:'h1', alignment:'center', margin:[0,0,0,6] },
@@ -1718,11 +2025,11 @@ function buildDocClient(f, selected, unselected) {
 
 
 
-
 // === [3] Gera PDF com TEXTO (pdfMake) ===
 function generatePDF_TEXT(type) {
   console.log('Gerando PDF tipo:', type);
   if (!validateRequiredFields()) return;
+  ensureProtocolFilled();
 
   const f = collectFormData();
   const { selected, unselected } = servicesBySelection();
@@ -1749,48 +2056,56 @@ function saveData() {
 }
 
 // Presets de serviços para o modal "Adicionar Novo Serviço"
+// ✅ serviços “de fábrica” (apenas rótulo e id). NENHUM dado de outro ERP!
 const PRESET_SERVICES = {
-  buscar_cliente: {
-    label: 'Buscar cliente',
-    config: erpData.IXC.services.find(s => s.id === 'buscar_cliente').config
-  },
-  buscar_contrato: {
-    label: 'Buscar contrato',
-    config: erpData.IXC.services.find(s => s.id === 'buscar_contrato').config
-  },
-  buscar_faturas: {
-    label: 'Buscar faturas',
-    config: erpData.IXC.services.find(s => s.id === 'buscar_faturas').config
-  },
-  gerar_fatura: {
-    label: 'Gerar fatura',
-    config: erpData.IXC.services.find(s => s.id === 'gerar_fatura').config
-  },
-  gerar_pix_fatura: {
-    label: 'Gerar PIX da fatura',
-    config: erpData.IXC.services.find(s => s.id === 'gerar_pix_fatura').config
-  },
-  renegociar_fatura: {
-    label: 'Renegociar fatura',
-    config: erpData.IXC.services.find(s => s.id === 'renegociar_fatura').config
-  },
-  desbloqueio_confianca: {
-    label: 'Desbloqueio de confiança',
-    config: erpData.IXC.services.find(s => s.id === 'desbloqueio_confianca').config
-  },
-  verificar_sinal: {
-    label: 'Verificar sinal',
-    config: erpData.IXC.services.find(s => s.id === 'verificar_sinal').config
-  },
-  abrir_chamado: {
-    label: 'Abrir chamado',
-    config: erpData.IXC.services.find(s => s.id === 'abrir_chamado').config
-  },
-  TESTE: {
-    label: 'TESTE',
-    config: erpData.IXC.services.find(s => s.id === 'TESTE').config
-  }
+  abrir_chamado:                { id: 'abrir_chamado',                  label: 'Abrir chamado' },
+  alteracao_nome_senha:         { id: 'alteracao_nome_senha',           label: 'Alteracao Nome/Senha' },
+  alteracao_vencimento:         { id: 'alteracao_vencimento',           label: 'Alteracao vencimento' },
+  analise_comportamental:       { id: 'analise_comportamental',         label: 'Analise Comportamental' },
+  analise_sentimento:           { id: 'analise_sentimento',             label: 'Analise Sentimento' },
+  apresentacao_planos:          { id: 'apresentacao_planos',            label: 'Apresentação planos' },
+  buscar_cliente:               { id: 'buscar_cliente',                 label: 'Buscar cliente' },
+  buscar_contrato:              { id: 'buscar_contrato',                label: 'Buscar contrato' },
+  buscar_faturas:               { id: 'buscar_faturas',                 label: 'Buscar faturas' },
+  business_intelligence:        { id: 'business_intelligence',          label: 'Business Intelligence' },
+  campanhas_personalizadas:     { id: 'campanhas_personalizadas',       label: 'Campanhas Personalizadas' },
+  desbloqueio_confianca:        { id: 'desbloqueio_confianca',          label: 'Desbloqueio confiança' },
+  downgrade_upgrade:            { id: 'downgrade_upgrade',              label: 'Downgrade/upgrade' },
+  duvidas_institucionais:       { id: 'duvidas_institucionais',         label: 'Dúvidas Institucionais' },
+  envio_finalizar_campanha:     { id: 'envio_finalizar_campanha',       label: 'Envio e-mail Finalizar' },
+  encaminhar_especialista:      { id: 'encaminhar_especialista',        label: 'Encaminhar Especialista' },
+  envio_cobrança:               { id: 'envio_cobrança',                 label: 'Envio cobrança' },
+  gerar_fatura:                 { id: 'gerar_fatura',                   label: 'Gerar fatura' },
+  gerar_pix_fatura:             { id: 'gerar_pix_fatura',               label: 'Gerar PIX fatura' },
+  identifica_pacote:            { id: 'identifica_pacote',              label: 'Identifica Pacote' },
+  identifica_bloqueio:          { id: 'identifica_bloqueio',            label: 'Identifica Bloqueio' },
+  identifica_incompatibilidade: { id: 'identifica_incompatibilidade',   label: 'Identifica Incompatibilidade' },
+  identifica_los:               { id: 'identifica_los',                 label: 'Identifica LOS' },
+  identifica_atenuacao:         { id: 'identifica_atenuacao',           label: 'Identifica Atenuação' },
+  identifica_localizacao:       { id: 'identifica_localizacao',         label: 'Identifica Localização' },
+  mudanca_endereco_comodo_ponto:{ id: 'mudanca_endereco_comodo_ponto',  label: 'Mudança endereço/cômodo/ponto' },
+  nova_contratacao:             { id: 'nova_contratacao',               label: 'Nova contratação' },
+  pos_cobranca:                 { id: 'pos_cobranca',                   label: 'Pós cobrança' },
+  renegociar_fatura:            { id: 'renegociar_fatura',              label: 'Renegociar fatura' },
+  segundo_ponto:                { id: 'segundo_ponto',                  label: 'Segundo ponto' },
+  tratativa_massiva:            { id: 'tratativa_massiva',              label: 'Tratativa massiva' },
+  tratativa_personalizada:      { id: 'tratativa_personalizada',        label: 'Tratativa personalizada' },
+  verificar_sinal:              { id: 'verificar_sinal',                label: 'Verificar sinal' },
+  // acrescente outros nomes se quiser (TESTE*, etc)
 };
+
+const BLANK_CONFIG = {
+  descricao: '',
+  instrucoes: '',
+  endpoint: '',
+  parametros: '{}',
+  prerequisitos: { exigeContrato:false, exigeCpfCnpj:false, exigeLoginAtivo:false },
+  responsavelPadrao: '',
+  ativo: true,
+  semAPI: false
+};
+
+
 
 // chips que devem ser desativados quando um preset específico é escolhido
 
@@ -1803,11 +2118,30 @@ function enableAllChips() {
   });
 }
 
+
+
 function setChipDisabled(key, disabled) {
   const btn = document.querySelector(`#presetServiceChips .chip-btn[data-key="${key}"]`);
   if (!btn) return;
   btn.disabled = disabled;
   btn.classList.toggle('disabled', disabled);
+}
+const LS_KEYS = { ERPS: 'erpServicesConfig', TEMPLATES: 'serviceTemplatesByErp' };
+let serviceTemplatesByErp = (() => {
+  try { return JSON.parse(localStorage.getItem(LS_KEYS.TEMPLATES) || '{}'); }
+  catch { return {}; }
+})();
+
+function getTemplate(erpName, serviceId) {
+  return JSON.parse(JSON.stringify(
+    serviceTemplatesByErp?.[erpName]?.[serviceId] || BLANK_CONFIG
+  ));
+}
+
+function saveTemplate(erpName, serviceId, cfg) {
+  if (!serviceTemplatesByErp[erpName]) serviceTemplatesByErp[erpName] = {};
+  serviceTemplatesByErp[erpName][serviceId] = JSON.parse(JSON.stringify(cfg));
+  localStorage.setItem(LS_KEYS.TEMPLATES, JSON.stringify(serviceTemplatesByErp));
 }
 
 
@@ -1907,7 +2241,53 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-console.log('Script carregado com sucesso');
 
 
+//gerar protocolo de serviço
+
+function generateProtocol(prefix = 'SIRIUS') {
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const y = now.getFullYear(), m = pad(now.getMonth() + 1), d = pad(now.getDate());
+
+  // contador diário no localStorage (reseta a cada dia)
+  const key = `protoCounter-${y}${m}${d}`;
+  const seq = (parseInt(localStorage.getItem(key) || '0', 10) + 1);
+  localStorage.setItem(key, String(seq));
+
+  return `${prefix}-${y}${m}${d}-${String(seq).padStart(4, '0')}`;
+}
+
+function ensureProtocolFilled() {
+  const el = document.getElementById('contractNumber');
+  if (el && !el.value.trim()) el.value = generateProtocol();
+}
+
+// normaliza p/ busca sem acentos e case-insensitive
+function norm(s) {
+  return (s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
+// filtra os chips dentro de #presetServiceChips
+function filterPresetChips(query) {
+  const q = norm(query);
+  let visible = 0;
+  document.querySelectorAll('#presetServiceChips .chip-btn').forEach(btn => {
+    const show = !q || norm(btn.textContent).includes(q);
+    btn.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  const empty = document.getElementById('chipNoResults');
+  if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+}
+
+// debounce simples (opcional)
+function debounce(fn, delay=80) {
+  let t; 
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
+}
 
