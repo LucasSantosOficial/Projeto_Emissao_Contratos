@@ -680,33 +680,46 @@ function initializeApp() {
 }
 
 function setupEventListeners() {
-    // Event listeners para ERPs
-    document.querySelectorAll('.erp-card').forEach(card => {
-        card.addEventListener('click', function() {
-            if (!this.classList.contains('disabled')) {
-                selectErp(this.dataset.erp);
-            }
-        });
+  // Event listeners para ERPs
+  document.querySelectorAll('.erp-card').forEach(card => {
+    card.addEventListener('click', function () {
+      if (!this.classList.contains('disabled')) {
+        selectErp(this.dataset.erp);
+      }
     });
-    
+  });
 
-    // Event listeners para botões principais
-    document.getElementById('addNewErpBtn').addEventListener('click', openNewErpModal);
-    document.getElementById('selectAllBtn').addEventListener('click', selectAllServices);
-    document.getElementById('deselectAllBtn').addEventListener('click', deselectAllServices);
-    document.getElementById('addNewServiceBtn').addEventListener('click', openNewServiceModal);
+  // Event listeners para botões principais
+  document.getElementById('addNewErpBtn').addEventListener('click', openNewErpModal);
+  document.getElementById('selectAllBtn').addEventListener('click', selectAllServices);
+  document.getElementById('deselectAllBtn').addEventListener('click', deselectAllServices);
+  document.getElementById('addNewServiceBtn').addEventListener('click', openNewServiceModal);
 
-    // Event listeners para botões de ação
-    document.getElementById('previewDevBtn').addEventListener('click', () => showPreview('dev'));
-    document.getElementById('previewClientBtn').addEventListener('click', () => showPreview('client'));
-    document.getElementById('generatePdfDevBtn').addEventListener('click', () => generatePDF_TEXT('dev'));
-document.getElementById('generatePdfClientBtn').addEventListener('click', () => generatePDF_TEXT('client'));
+  // Event listeners para botões de ação
+  document.getElementById('previewDevBtn').addEventListener('click', () => showPreview('dev'));
+  document.getElementById('previewClientBtn').addEventListener('click', () => showPreview('client'));
+  document.getElementById('generatePdfDevBtn').addEventListener('click', () => generatePDF_TEXT('dev'));
+  document.getElementById('generatePdfClientBtn').addEventListener('click', () => generatePDF_TEXT('client'));
 
-    document.getElementById('closePreviewBtn').addEventListener('click', closePreview);
+  document.getElementById('closePreviewBtn').addEventListener('click', closePreview);
 
-    // Event listeners para modais
-    setupModalEventListeners();
+  // === Protocolo ===
+  // Se o botão já está no DOM, liga direto; senão, usa delegação (fallback)
+  const saveBtn = document.getElementById('saveProtocolBtn');
+  if (saveBtn) {
+    saveBtn.addEventListener('click', commitProtocol);
+  } else {
+    // fallback para quando o botão for inserido dinamicamente depois
+    document.body.addEventListener('click', (e) => {
+      const target = e.target.closest('#saveProtocolBtn');
+      if (target) commitProtocol();
+    });
+  }
+
+  // Event listeners para modais
+  setupModalEventListeners();
 }
+
 
 function setupModalEventListeners() {
     // Modal Novo ERP
@@ -2245,23 +2258,86 @@ document.addEventListener('DOMContentLoaded', function() {
 
 //gerar protocolo de serviço
 
-function generateProtocol(prefix = 'SIRIUS') {
-  const now = new Date();
-  const pad = n => String(n).padStart(2, '0');
-  const y = now.getFullYear(), m = pad(now.getMonth() + 1), d = pad(now.getDate());
+// ==== Protocolo (global, persiste até 9999 e só avança ao salvar) ====
+const PROTO_PREFIX = 'SIRIUS';
+const PROTO_KEYS = {
+  NEXT: 'protoNextSeq',   // próximo número a ser atribuído (0..9999)
+  HOLD: 'protoHoldSeq'    // número atualmente reservado/mostrado e ainda não salvo
+};
 
-  // contador diário no localStorage (reseta a cada dia)
-  const key = `protoCounter-${y}${m}${d}`;
-  const seq = (parseInt(localStorage.getItem(key) || '0', 10) + 1);
-  localStorage.setItem(key, String(seq));
+// utilidades
+const pad2 = n => String(n).padStart(2,'0');
+const pad4 = n => String(n).padStart(4,'0');
 
-  return `${prefix}-${y}${m}${d}-${String(seq).padStart(4, '0')}`;
+function getNextSeq() {
+  let v = parseInt(localStorage.getItem(PROTO_KEYS.NEXT), 10);
+  if (Number.isNaN(v) || v < 0 || v > 9999) v = 0;
+  return v;
+}
+function setNextSeq(v) {
+  localStorage.setItem(PROTO_KEYS.NEXT, String(v % 10000));
+}
+function getHoldSeq() {
+  const s = localStorage.getItem(PROTO_KEYS.HOLD);
+  return (s === null) ? null : parseInt(s, 10);
+}
+function setHoldSeq(n) { localStorage.setItem(PROTO_KEYS.HOLD, String(n)); }
+function clearHoldSeq() { localStorage.removeItem(PROTO_KEYS.HOLD); }
+
+function buildProtocol(prefix = PROTO_PREFIX, seq = 0, date = new Date()) {
+  const y = date.getFullYear(), m = pad2(date.getMonth() + 1), d = pad2(date.getDate());
+  return `${prefix}-${y}${m}${d}-${pad4(seq)}`;
 }
 
+/**
+ * Garante que o campo #contractNumber mostre o protocolo "reservado".
+ * - Se já existe um reservado (HOLD), usa o mesmo.
+ * - Se não existe, reserva o valor do "NEXT" (sem avançar) e mostra.
+ */
 function ensureProtocolFilled() {
   const el = document.getElementById('contractNumber');
-  if (el && !el.value.trim()) el.value = generateProtocol();
+  if (!el) return;
+
+  let seq = getHoldSeq();
+  if (seq === null) {
+    seq = getNextSeq();     // reserva sem consumir
+    setHoldSeq(seq);
+  }
+  el.value = buildProtocol(PROTO_PREFIX, seq);
 }
+
+/**
+ * Confirma/Salva o protocolo atual e avança o contador global.
+ * Após salvar, limpa a reserva e já mostra o próximo no campo.
+ */
+function commitProtocol() {
+  // opcional: só permite salvar se formulário estiver ok
+  if (typeof validateRequiredFields === 'function' && !validateRequiredFields()) {
+    return;
+  }
+
+  const hold = getHoldSeq();
+  if (hold === null) {
+    showNotification('Nenhum protocolo para salvar', 'error');
+    return;
+  }
+
+  // avança (0..9999, depois volta a 0000)
+  const next = (hold + 1) % 10000;
+  setNextSeq(next);
+  clearHoldSeq();
+
+  ensureProtocolFilled();  // já exibe o próximo
+  showNotification('Protocolo salvo', 'success');
+}
+
+// mantém o campo sincronizado se outro tab salvar (mesmo navegador)
+window.addEventListener('storage', (e) => {
+  if (e.key === PROTO_KEYS.NEXT || e.key === PROTO_KEYS.HOLD) {
+    ensureProtocolFilled();
+  }
+});
+
 
 // normaliza p/ busca sem acentos e case-insensitive
 function norm(s) {
@@ -2291,3 +2367,4 @@ function debounce(fn, delay=80) {
   return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
 }
 
+//EU COMECEI AQUI

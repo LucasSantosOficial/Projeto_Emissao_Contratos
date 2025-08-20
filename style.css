@@ -727,3 +727,9 @@ background: linear-gradient(135deg, #e53e3e 0%, #e53e3e 100%);
 }
 .chip-search input:focus { border-color: #a78bfa; box-shadow: 0 0 0 3px rgba(167,139,250,.25); }
 .chip-empty { color: #718096; font-size: .85rem; margin-top: 6px; }
+
+.action-btn.primary1{
+    background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
+    color: white;
+
+}
