@@ -1,3 +1,10 @@
+/* ========================================= CSS • Documentação de Serviços ========================================= */
+
+
+/* =========================================
+   RESET & BASE GLOBAL
+========================================= */
+
 /* Reset e configurações básicas */
 * {
     margin: 0;
@@ -5,6 +12,7 @@
     box-sizing: border-box;
 }
 
+/* Tipografia global, gradiente de fundo e base */
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     line-height: 1.6;
@@ -13,13 +21,18 @@ body {
     min-height: 100vh;
 }
 
+/* Container central que limita largura e aplica padding */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* Header */
+
+/* =========================================
+   HEADER (título + subtítulo)
+========================================= */
+
 header {
     text-align: center;
     background: rgba(255, 255, 255, 0.95);
@@ -41,7 +54,11 @@ header p {
     font-size: 1.1rem;
 }
 
-/* Form sections */
+
+/* =========================================
+   SEÇÕES DO FORMULÁRIO (cartões)
+========================================= */
+
 .form-section {
     background: rgba(255, 255, 255, 0.95);
     padding: 2rem;
@@ -58,7 +75,11 @@ header p {
     padding-bottom: 0.5rem;
 }
 
-/* Form groups */
+
+/* =========================================
+   CAMPOS DO FORMULÁRIO (inputs, selects, etc.)
+========================================= */
+
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -89,7 +110,11 @@ header p {
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
 }
 
-/* ERP Grid */
+
+/* =========================================
+   GRID DE ERPs (cards de ERPs)
+========================================= */
+
 .erp-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -137,7 +162,11 @@ header p {
     margin-bottom: 0.5rem;
 }
 
-/* ERP Status */
+
+/* =========================================
+   STATUS DO ERP (pill)
+========================================= */
+
 .erp-status {
     display: inline-block;
     padding: 0.25rem 0.75rem;
@@ -162,7 +191,11 @@ header p {
     color: white;
 }
 
-/* Add ERP Section */
+
+/* =========================================
+   AÇÕES DE ERP (adicionar/excluir)
+========================================= */
+
 .add-erp-section {
     text-align: center;
     margin-top: 2rem;
@@ -197,7 +230,11 @@ header p {
     box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
 }
 
-/* Services Section */
+
+/* =========================================
+   SEÇÃO DE SERVIÇOS (header, ações, lista)
+========================================= */
+
 .services-header {
     display: flex;
     justify-content: space-between;
@@ -218,7 +255,11 @@ header p {
     gap: 1rem;
 }
 
-/* Service Card */
+
+/* =========================================
+   CARD DE SERVIÇO (selecionado / não selecionado)
+========================================= */
+
 .service-card {
     background: white;
     border: 2px solid #e2e8f0;
@@ -268,6 +309,7 @@ header p {
     gap: 0.5rem;
 }
 
+/* Área colapsável com configs do serviço */
 .service-config {
     background: #f8fafc;
     border-top: 1px solid #e2e8f0;
@@ -286,7 +328,11 @@ header p {
     gap: 1rem;
 }
 
-/* Action Buttons */
+
+/* =========================================
+   BOTÕES DE AÇÃO (genéricos)
+========================================= */
+
 .action-btn {
     padding: 0.5rem 1rem;
     border: none;
@@ -308,20 +354,19 @@ header p {
 }
 
 .action-btn.primary3{
-background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
+    background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     color: white;
-
 }
 
-.action-btn.secondary {
+/* .action-btn.secondary {
     background: #e2e8f0;
     color: #4a5568;
-}
+} */
 
-.action-btn.success {
+/* .action-btn.success {
     background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
     color: white;
-}
+} */
 
 .action-btn.warning {
     background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
@@ -344,7 +389,11 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     transform: none;
 }
 
-/* Form Actions */
+
+/* =========================================
+   AÇÕES DO FORM (grupo de botões no rodapé)
+========================================= */
+
 .form-actions {
     display: flex;
     gap: 1rem;
@@ -353,7 +402,11 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     margin-top: 2rem;
 }
 
-/* Modals */
+
+/* =========================================
+   MODAIS (overlay) + CONTEÚDO
+========================================= */
+
 .modal {
     display: none;
     position: fixed;
@@ -406,6 +459,28 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     padding: 1.5rem;
 }
 
+/* Corpo específico do modal de "motivo" (ajustes de tipografia/spacing) */
+.modal-body1 {
+    color: #000000;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding-left: 16px;
+}
+
+/* Área de texto do modal de "motivo" */
+.textarea {
+    left: 0px;
+    width: 90%;
+    height: 100px;
+    padding: 1.75rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 20px;
+    font-size: 0.90rem;
+    transition: all 0.3s ease;
+    border-color: #4e4c4c;
+    margin-left: 3px;
+}
+
 .modal-footer {
     display: flex;
     gap: 1rem;
@@ -414,17 +489,16 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     border-top: 1px solid #e2e8f0;
 }
 
+/* Botão de fechar (X) no cabeçalho dos modais */
 .close-btn {
     background: none;
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-    color: #718096;
     padding: 0.25rem;
     border-radius: 4px;
     transition: all 0.3s ease;
     color: #e53e3e
-    
 }
 
 .close-btn:hover {
@@ -432,7 +506,11 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     color: #4a5568;
 }
 
-/* Config Form */
+
+/* =========================================
+   FORM DE CONFIGURAÇÃO (grid + checkboxes)
+========================================= */
+
 .config-form {
     display: grid;
     gap: 1.5rem;
@@ -463,7 +541,11 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     margin-top: 0.25rem;
 }
 
-/* Preview */
+
+/* =========================================
+   PRÉVIA (preview do documento)
+========================================= */
+
 .pdf-preview {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
@@ -485,7 +567,11 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     overflow-y: auto;
 }
 
-/* Notifications */
+
+/* =========================================
+   NOTIFICAÇÕES (toasts)
+========================================= */
+
 .notification {
     position: fixed;
     top: 20px;
@@ -510,7 +596,11 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     background: linear-gradient(135deg, #c8d600 0%, #c8d600 100%);
 }
 
-/* Animations */
+
+/* =========================================
+   ANIMAÇÕES
+========================================= */
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -538,7 +628,11 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     }
 }
 
-/* Responsive */
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
 @media (max-width: 768px) {
     .container {
         padding: 10px;
@@ -575,14 +669,13 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     }
 }
 
-/* Utility Classes */
-.hidden {
-    display: none !important;
-}
 
-.text-center {
-    text-align: center;
-}
+/* =========================================
+   UTILITÁRIAS
+========================================= */
+
+.hidden { display: none !important; }
+.text-center { text-align: center; }
 
 .mb-1 { margin-bottom: 0.5rem; }
 .mb-2 { margin-bottom: 1rem; }
@@ -594,7 +687,12 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
 .mt-3 { margin-top: 1.5rem; }
 .mt-4 { margin-top: 2rem; }
 
-/* Service specific styles */
+
+/* =========================================
+   CONTROLES ESPECÍFICOS (expand, add-service)
+========================================= */
+
+/* Botão que expande/colapsa configs do serviço */
 .service-expand-btn {
     background: none;
     border: 1px solid #e2e8f0;
@@ -616,6 +714,7 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     border-color: #9474c5;
 }
 
+/* Rodapé da seção de serviços com botão "Adicionar Novo Serviço" */
 .add-service-section {
     text-align: center;
     margin-top: 2rem;
@@ -653,6 +752,10 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
 }
 
 
+/* =========================================
+   BOTÕES ESPECÍFICOS DE PDF / AÇÕES
+========================================= */
+
 /* botão de gerar pdf */
 .action-btn.primary{
     background: linear-gradient(135deg, #4f00c4 0%, #764ba2 100%);
@@ -664,12 +767,16 @@ background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     color: white;
 }
 
-
+/* (Sobrescreve a .action-btn.secondary anterior) */
 .action-btn.secondary {
-background: linear-gradient(135deg, #e53e3e 0%, #e53e3e 100%);
+    background: linear-gradient(135deg, #e53e3e 0%, #e53e3e 100%);
     color: white;
 }
 
+
+/* =========================================
+   CHIPS (presets de serviço no modal)
+========================================= */
 
 .chip-row {
   display: flex;
@@ -704,32 +811,66 @@ background: linear-gradient(135deg, #e53e3e 0%, #e53e3e 100%);
   pointer-events: none;
 }
 
-#presetServiceChips .chip-btn.disabled {
+/* #presetServiceChips .chip-btn.disabled {
   opacity: .45;
   cursor: not-allowed;
   pointer-events: none;
-}
+} */
+
 #presetServiceChips .chip-btn.selected {
   outline: 2px solid #6366f1;
   outline-offset: 2px;
 }
 
-/* barra de pesquisa */
+
+/* =========================================
+   CAMPINHO DE BUSCA (filtro de chips)
+========================================= */
+
 .chip-search {
   position: sticky; top: 0;
   background: #fff; padding-bottom: 6px; margin: 6px 0 8px;
   z-index: 1;
 }
+
 .chip-search input {
   width: 100%; padding: 8px 10px;
   border: 1px solid #e2e8f0; border-radius: 8px;
   font-size: 0.9rem; outline: none;
 }
+
 .chip-search input:focus { border-color: #a78bfa; box-shadow: 0 0 0 3px rgba(167,139,250,.25); }
+
 .chip-empty { color: #718096; font-size: .85rem; margin-top: 6px; }
+
+
+/* =========================================
+   OUTROS AJUSTES DE BOTÕES
+========================================= */
 
 .action-btn.primary1{
     background: linear-gradient(135deg, #48bb78 0%, #48bb78 100%);
     color: white;
+}
 
+
+/* =========================================
+   MOTIVO DO SERVIÇO DESMARCADO (texto sob o card)
+========================================= */
+
+.service-card .unselected-reason{
+  margin: 6px 0 0 44px;   /* alinha com o texto (depois do checkbox) */
+  font-size: .9rem;
+  color: #6b7280;         /* cinza */
+}
+
+
+/* =========================================
+   SCROLL NA LISTA DE SERVIÇOS
+========================================= */
+
+#servicesList{
+  max-height: 57vh;     /* altura da área rolável */
+  overflow-y: auto;     /* mostra a barra de rolagem vertical */
+  padding-right: 8px;   /* evita cortar conteúdo sob a barra */
 }
